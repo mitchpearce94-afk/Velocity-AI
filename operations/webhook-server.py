@@ -169,7 +169,7 @@ def send_confirmation_email(email: str, first_name: str, call_date: str, call_ti
         log.info(f"[DRY RUN] Would send confirmation to {email}")
         return
 
-    sys.path.insert(0, str(SCRIPT_DIR.parent / "email"))
+    sys.path.insert(0, str(SCRIPT_DIR.parent / "emails"))
     from importlib import import_module
     sender = import_module("send-email")
     sender.send_discovery_confirmation(

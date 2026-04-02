@@ -139,7 +139,13 @@ Map each solution to a specific pain they raised:
 | Professional | $5,000 | $1,499/mo | Growing teams, 4–10 staff |
 | Enterprise | $10,000 | $2,499/mo | Multi-team operations, 10+ staff |
 
-> "The setup fee covers your custom build — CRM, quoting, scheduling, automations, voice agent — everything configured specifically for your business. We split it 50/50, so half upfront and half when you're live. The monthly covers the platform, AI, and ongoing support. No lock-in."
+> "The setup fee covers your custom build — CRM, quoting, scheduling, automations, voice agent — everything configured specifically for your business. We split it 50/50, so half upfront and half when you're live. The monthly covers the platform, AI, and ongoing support. No lock-in. And if you go annual, we'll knock 10% off."
+
+**Quick reference — what each tier includes (use to tailor the pitch):**
+
+- **Starter:** AI Voice Agent (inbound, 200 mins/mo), basic CRM, automated quote follow-up, Google review requests, 1x onboarding session, email + chat support.
+- **Professional:** Everything in Starter + inbound & outbound AI voice (500 mins/mo), full CRM with pipeline, automated quoting with branded PDFs, smart scheduling, marketing automation, live dashboard, 3x onboarding sessions, priority support, monthly strategy call.
+- **Enterprise:** Everything in Professional + unlimited AI voice, multi-location, custom integrations, advanced reporting, compliance workflows, subcontractor management, dedicated account manager, weekly strategy calls.
 
 **Anchor to their pain before price lands:**
 
@@ -221,6 +227,6 @@ Immediately after hanging up:
 
 - **Listen more than you talk.** The ratio should be 70/30 in their favour during the problem dig.
 - **Use their words.** When you present the solution, mirror the exact language they used to describe their problems.
-- **Don't oversell.** If they only need Solo, don't push Professional. Trust builds referrals.
+- **Don't oversell.** If they only need Starter, don't push Professional. Trust builds referrals.
 - **Be honest.** If Velocity AI isn't the right fit, say so. It builds more credibility than any sales technique.
 - **You're not selling software.** You're selling time back, money back, and peace of mind.

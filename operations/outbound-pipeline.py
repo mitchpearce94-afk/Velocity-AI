@@ -82,7 +82,7 @@ REPLY_TO_EMAIL = "mitchell@velocityai.com.au"
 BOOKING_LINK = "https://cal.com/mitchell-pearce/discovery-call"
 
 # Email template paths
-EMAIL_TEMPLATE_DIR = SCRIPT_DIR.parent / "email" / "outbound-sequence"
+EMAIL_TEMPLATE_DIR = SCRIPT_DIR.parent / "emails" / "outbound-sequence"
 SEQUENCE_CONFIG_FILE = EMAIL_TEMPLATE_DIR / "sequence-config.json"
 
 # ---------------------------------------------------------------------------

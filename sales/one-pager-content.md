@@ -74,17 +74,21 @@ Whether you're an owner-operator doing it all yourself or running a team of 20+,
 
 Transparent. No lock-in contracts. Cancel anytime.
 
-| Tier | Setup Fee | Monthly | Best For |
-|---|---|---|---|
-| **Starter** | $2,500 | $699/mo | Owner-operators, 1–3 staff |
-| **Professional** | $5,000 | $1,499/mo | Growing teams, 4–10 staff |
-| **Enterprise** | $10,000 | $2,499/mo | Multi-team operations, 10+ staff |
+| Tier | Setup Fee | Monthly | Annual (10% off) | Best For |
+|---|---|---|---|---|
+| **Starter** | $2,500 | $699/mo | $629/mo | Owner-operators, 1–3 staff |
+| **Professional** | $5,000 | $1,499/mo | $1,349/mo | Growing teams, 4–10 staff |
+| **Enterprise** | $10,000 | $2,499/mo | $2,249/mo | Multi-team operations, 10+ staff |
 
-**What's included:** Full system build, onboarding, training, ongoing support, and AI voice agent.
+**Starter includes:** AI Voice Agent (Ava) — inbound call answering & appointment booking (200 mins/mo), basic CRM, automated quote follow-up, Google review requests, 1x onboarding session, email + chat support.
 
-**Setup fee:** Split 50/50 — half on commitment, half on delivery. Covers the custom build, configuration, and data migration for your business. Annual prepay available at 10% off.
+**Professional includes:** Everything in Starter, plus inbound + outbound AI voice (500 mins/mo), full CRM with pipeline management, automated quoting with branded PDFs, smart scheduling with real-time team sync, marketing automation, live business dashboard, 3x onboarding sessions, priority support, and monthly strategy call.
 
-**Optional add-ons:** Extra AI voice minutes ($99/mo), outbound cold calling ($499/mo), website build ($3,000), Google Ads management ($499/mo + ad spend), social media content ($399/mo).
+**Enterprise includes:** Everything in Professional, plus unlimited AI voice minutes, multi-location support, custom integrations (accounting, supplier portals), advanced per-team reporting, compliance workflows, subcontractor management, dedicated account manager, and weekly strategy calls.
+
+**Setup fee:** Split 50/50 — half on commitment, half on delivery. Covers the custom build, configuration, and data migration for your business.
+
+**Optional add-ons:** Extra AI voice minutes ($99/mo per 100 mins), outbound cold calling campaigns ($499/mo), website build ($3,000), Google Ads management ($499/mo + ad spend), social media content ($399/mo), custom integrations ($1,500 each), staff training ($250/session).
 
 ---
 
