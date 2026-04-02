@@ -37,3 +37,5 @@ Thumbs.db
 
 # Git bundle (backup — don't need in repo)
 *.bundle
+
+.vercel

@@ -3,619 +3,507 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velocity AI - Preview</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<title>Velocity AI — Your Trade Business, Fully Automated</title>
+<meta name="description" content="AI-powered operations platform for Australian trade businesses. AI voice agent, CRM, quoting, scheduling, and marketing automation — all in one system.">
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/lucide-react@0.383.0/dist/umd/lucide-react.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+      colors: {
+        navy: { 900: '#0b1120', 800: '#0f172a', 700: '#1e293b', 600: '#334155' },
+        brand: { blue: '#3b82f6', cyan: '#06b6d4', amber: '#f59e0b', gold: '#eab308' },
+      },
+    },
+  },
+}
+</script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+@keyframes float1 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, -40px) scale(1.1); } }
+@keyframes float2 { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-20px, 30px) scale(1.05); } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.4; } 100% { transform: scale(1.8); opacity: 0; } }
+.animate-fade-up { animation: fade-up 0.7s ease-out forwards; }
+.animate-fade-up-delay-1 { animation: fade-up 0.7s ease-out 0.1s forwards; opacity: 0; }
+.animate-fade-up-delay-2 { animation: fade-up 0.7s ease-out 0.2s forwards; opacity: 0; }
+.animate-fade-up-delay-3 { animation: fade-up 0.7s ease-out 0.3s forwards; opacity: 0; }
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.gradient-text { background: linear-gradient(135deg, #3b82f6, #06b6d4, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.bg-grid { background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 60px 60px; }
 </style>
 </head>
-<body>
-<div id="root"></div>
-<script type="text/babel">
-const { useState, useEffect, useRef, useCallback } = React;
-const {
-  Zap, Clock, BarChart3, Calendar, MessageSquare, Phone,
-  ArrowRight, CheckCircle2, ChevronDown, Star, TrendingUp,
-  Users, Timer, Wrench, ShieldCheck, Rocket, Brain,
-  Mail, MapPin, Linkedin, Twitter, Menu, X,
-  FileText, Mic, LayoutDashboard, Megaphone, Bot,
-  AlertTriangle, HelpCircle, Target, Lightbulb, Gauge,
-  Play, ChevronRight, Award, Globe, Sparkles
-} = lucideReact;
+<body class="bg-navy-900 text-white font-sans antialiased">
 
-/* ─────────────────── Intersection Observer Hook ─────────────────── */
-function useInView(options = {}) {
-  const [isInView, setIsInView] = useState(false);
-  const ref = useRef(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setIsInView(true); observer.unobserve(el); } },
-      { threshold: 0.15, ...options }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  return [ref, isInView];
-}
-
-/* ─────────────────── Animated Counter ─────────────────── */
-function AnimatedCounter({ end, suffix = "", duration = 2000 }) {
-  const [count, setCount] = useState(0);
-  const [ref, isInView] = useInView();
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const step = end / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= end) { setCount(end); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, 16);
-    return () => clearInterval(timer);
-  }, [isInView, end, duration]);
-  return <span ref={ref}>{count}{suffix}</span>;
-}
-
-/* ─────────────────── Animated Gradient Orbs (Hero BG) ─────────────────── */
-function HeroBackground() {
-  return (
-    <div className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[#0f172a]" />
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-20"
-        style={{
-          background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)",
-          animation: "float1 8s ease-in-out infinite",
-        }} />
-      <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full opacity-15"
-        style={{
-          background: "radial-gradient(circle, #f59e0b 0%, transparent 70%)",
-          animation: "float2 10s ease-in-out infinite",
-        }} />
-      <div className="absolute top-[40%] right-[20%] w-[400px] h-[400px] rounded-full opacity-10"
-        style={{
-          background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)",
-          animation: "float3 12s ease-in-out infinite",
-        }} />
-      <div className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(90deg, #3b82f6 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }} />
-      <style>{`
-        @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(60px,40px) scale(1.1)} }
-        @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,-60px) scale(1.15)} }
-        @keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,-30px) scale(1.05)} }
-      `}</style>
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-9 h-9 bg-gradient-to-br from-brand-blue to-brand-cyan rounded-lg flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <span class="text-xl font-bold">Velocity<span class="text-brand-blue">AI</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#services" class="text-sm text-gray-300 hover:text-white transition">Services</a>
+      <a href="#how-it-works" class="text-sm text-gray-300 hover:text-white transition">How It Works</a>
+      <a href="#pricing" class="text-sm text-gray-300 hover:text-white transition">Pricing</a>
+      <a href="#results" class="text-sm text-gray-300 hover:text-white transition">Results</a>
+      <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="bg-brand-blue hover:bg-blue-600 text-white text-sm font-semibold px-5 py-2.5 rounded-lg transition">Book a Call</a>
     </div>
-  );
-}
+    <button id="menu-toggle" class="md:hidden text-gray-300">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+  <div id="mobile-menu" class="hidden md:hidden bg-navy-800/95 backdrop-blur-lg border-t border-white/5 px-6 pb-6">
+    <a href="#services" class="block py-3 text-gray-300 hover:text-white">Services</a>
+    <a href="#how-it-works" class="block py-3 text-gray-300 hover:text-white">How It Works</a>
+    <a href="#pricing" class="block py-3 text-gray-300 hover:text-white">Pricing</a>
+    <a href="#results" class="block py-3 text-gray-300 hover:text-white">Results</a>
+    <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="block mt-3 text-center bg-brand-blue hover:bg-blue-600 text-white font-semibold px-5 py-3 rounded-lg transition">Book a Call</a>
+  </div>
+</nav>
 
-/* ─────────────────── FadeIn Wrapper ─────────────────── */
-function FadeIn({ children, delay = 0, direction = "up", className = "" }) {
-  const [ref, isInView] = useInView();
-  const transforms = {
-    up: "translateY(40px)", down: "translateY(-40px)",
-    left: "translateX(40px)", right: "translateX(-40px)", none: "none",
-  };
-  return (
-    <div ref={ref} className={className}
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? "none" : transforms[direction],
-        transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s`,
-      }}>
-      {children}
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Animated BG -->
+  <div class="absolute inset-0 bg-navy-900"></div>
+  <div class="absolute inset-0 bg-grid"></div>
+  <div class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-20" style="background: radial-gradient(circle, #3b82f6 0%, transparent 70%); animation: float1 8s ease-in-out infinite;"></div>
+  <div class="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full opacity-15" style="background: radial-gradient(circle, #f59e0b 0%, transparent 70%); animation: float2 10s ease-in-out infinite;"></div>
+  <div class="absolute top-[40%] right-[20%] w-[300px] h-[300px] rounded-full opacity-10" style="background: radial-gradient(circle, #06b6d4 0%, transparent 70%); animation: float1 12s ease-in-out infinite;"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center pt-24">
+    <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8 animate-fade-up">
+      <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+      <span class="text-sm text-gray-300">Built for Australian trade businesses</span>
     </div>
-  );
-}
 
-/* ─────────────────── Navigation ─────────────────── */
-function Navigation() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handler, { passive: true });
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
-  const scrollTo = (id) => { setMobileOpen(false); document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); };
-  const links = [
-    { label: "Services", id: "solutions" },
-    { label: "How It Works", id: "process" },
-    { label: "Pricing", id: "pricing" },
-    { label: "Results", id: "results" },
-  ];
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#0f172a]/90 backdrop-blur-xl shadow-2xl shadow-black/10 border-b border-white/5" : "bg-transparent"}`}>
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#2563eb] flex items-center justify-center shadow-lg shadow-blue-500/25 group-hover:shadow-blue-500/40 transition-shadow">
-            <Zap className="w-5 h-5 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="text-xl font-bold text-white tracking-tight">Velocity<span className="text-[#3b82f6]">AI</span></span>
-        </button>
-        <div className="hidden md:flex items-center gap-1">
-          {links.map(link => (
-            <button key={link.id} onClick={() => scrollTo(link.id)}
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-200">
-              {link.label}
-            </button>
-          ))}
-        </div>
-        <div className="hidden md:flex items-center gap-3">
-          <button onClick={() => scrollTo("cta")}
-            className="px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-[#3b82f6] to-[#2563eb] rounded-xl hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 transition-all duration-300">
-            Book a Call
-          </button>
-        </div>
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-white p-2">
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
-      {mobileOpen && (
-        <div className="md:hidden bg-[#0f172a]/95 backdrop-blur-xl border-t border-white/5 px-6 py-6 space-y-2">
-          {links.map(link => (
-            <button key={link.id} onClick={() => scrollTo(link.id)}
-              className="block w-full text-left px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors text-base font-medium">
-              {link.label}
-            </button>
-          ))}
-          <button onClick={() => scrollTo("cta")}
-            className="w-full mt-4 px-5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-[#3b82f6] to-[#2563eb] rounded-xl">
-            Book a Discovery Call
-          </button>
-        </div>
-      )}
-    </nav>
-  );
-}
+    <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.1] mb-6 animate-fade-up-delay-1">
+      Your trade business,<br><span class="gradient-text">fully automated.</span>
+    </h1>
 
-/* ─────────────────── Hero Section ─────────────────── */
-function HeroSection() {
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <HeroBackground />
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24 text-center">
-        <FadeIn delay={0.1}>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-sm font-medium text-slate-300">Now serving Australian trade businesses</span>
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-white leading-[1.05] tracking-tight mb-8 max-w-5xl mx-auto"
-            style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
-            Your trade business,{" "}
-            <span className="relative">
-              <span className="bg-gradient-to-r from-[#3b82f6] via-[#60a5fa] to-[#f59e0b] bg-clip-text text-transparent">accelerated by AI</span>
-              <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
-                <path d="M2 8 Q75 2 150 6 Q225 10 298 4" stroke="url(#underline-grad)" strokeWidth="3" strokeLinecap="round"
-                  style={{ strokeDasharray: 300, strokeDashoffset: 300, animation: "draw 1.5s ease forwards 0.8s" }} />
-                <defs><linearGradient id="underline-grad" x1="0" y1="0" x2="300" y2="0"><stop offset="0%" stopColor="#3b82f6" /><stop offset="100%" stopColor="#f59e0b" /></linearGradient></defs>
-              </svg>
-            </span>
-          </h1>
-        </FadeIn>
-        <FadeIn delay={0.4}>
-          <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed font-normal">
-            We build your complete AI operations system in 2 weeks. CRM, quoting, scheduling, marketing — all automated. So you can build momentum, not manage admin.
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.55}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button onClick={() => scrollTo("cta")}
-              className="group relative px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-[#3b82f6] to-[#2563eb] rounded-2xl shadow-xl shadow-blue-500/20 hover:shadow-2xl hover:shadow-blue-500/30 hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
-              Book a Discovery Call
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#60a5fa] to-[#3b82f6] opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-xl" />
-            </button>
-            <button onClick={() => scrollTo("process")}
-              className="group px-8 py-4 text-base font-semibold text-slate-300 hover:text-white border border-white/10 hover:border-white/20 rounded-2xl hover:bg-white/5 transition-all duration-300 flex items-center gap-3">
-              See How It Works
-              <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
-            </button>
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.7}>
-          <div className="mt-20 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-sm text-slate-500">
-            <div className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-500" /><span>SOC 2 Compliant</span></div>
-            <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-[#3b82f6]" /><span>2-Week Setup</span></div>
-            <div className="flex items-center gap-2"><Wrench className="w-4 h-4 text-[#f59e0b]" /><span>Built for Trades</span></div>
-            <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-emerald-500" /><span>100% Australian</span></div>
-          </div>
-        </FadeIn>
-      </div>
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2">
-          <div className="w-1 h-3 rounded-full bg-white/40 animate-bounce" />
-        </div>
-      </div>
-      <style>{`@keyframes draw { to { stroke-dashoffset: 0; } }`}</style>
-    </section>
-  );
-}
+    <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 animate-fade-up-delay-2">
+      AI voice agent answers your calls 24/7. Smart CRM runs your jobs. Automated marketing fills your pipeline. One platform, zero admin headaches.
+    </p>
 
-/* ─────────────────── Problem Section ─────────────────── */
-function ProblemSection() {
-  const pains = [
-    { icon: AlertTriangle, title: "Buried in admin", desc: "Spending evenings on paperwork instead of with family. The never-ending pile of invoices, quotes, and job sheets." },
-    { icon: Timer, title: "Slow lead response", desc: "Missed calls and enquiries going cold because you're on-site. Every hour of delay costs you jobs." },
-    { icon: FileText, title: "Manual quoting", desc: "Hours spent creating quotes from scratch, copy-pasting details, chasing up clients for approvals." },
-    { icon: Calendar, title: "Scheduling chaos", desc: "Double bookings, no-shows, and confused crews. Whiteboards and spreadsheets aren't cutting it anymore." },
-    { icon: HelpCircle, title: "Marketing guesswork", desc: "Know you should be doing more marketing but no idea where to start. Paying for ads with no tracking." },
-    { icon: Gauge, title: "Zero visibility", desc: "No idea which jobs are profitable, where your leads come from, or how your business is actually performing." },
-  ];
-  return (
-    <section className="relative py-28 lg:py-36 bg-[#fafaf9]">
-      <div className="max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="inline-block text-sm font-bold text-[#f59e0b] tracking-widest uppercase mb-4">The Problem</span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0f172a] tracking-tight mb-6">Sound familiar?</h2>
-            <p className="text-lg text-slate-500 leading-relaxed">
-              You're great at your trade. But running a business means drowning in admin, losing leads, and working <em>in</em> the business instead of <em>on</em> it.
-            </p>
-          </div>
-        </FadeIn>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pains.map((p, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="group relative p-8 rounded-2xl bg-white border border-slate-100 hover:border-slate-200 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
-                <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center mb-5 group-hover:bg-red-100 transition-colors">
-                  <p.icon className="w-6 h-6 text-red-500" />
-                </div>
-                <h3 className="text-lg font-bold text-[#0f172a] mb-3">{p.title}</h3>
-                <p className="text-slate-500 leading-relaxed text-[15px]">{p.desc}</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── Solutions Section ─────────────────── */
-function SolutionsSection() {
-  const services = [
-    { icon: Users, title: "AI-Powered CRM", desc: "Every lead, customer, and job in one place. Auto-capture enquiries, track follow-ups, never lose a lead again.", color: "from-blue-500 to-blue-600", bg: "bg-blue-50", text: "text-blue-600" },
-    { icon: FileText, title: "Smart Quoting", desc: "Generate professional quotes in seconds. Auto-populate pricing, send to customers, track approvals — all automated.", color: "from-emerald-500 to-emerald-600", bg: "bg-emerald-50", text: "text-emerald-600" },
-    { icon: Calendar, title: "Intelligent Scheduling", desc: "Drag-drop calendar, auto-dispatch to nearest crew, conflict detection, and real-time updates for your team.", color: "from-violet-500 to-violet-600", bg: "bg-violet-50", text: "text-violet-600" },
-    { icon: Megaphone, title: "Marketing Automation", desc: "Social media posts, email campaigns, Google review requests — all running on autopilot, bringing in new leads.", color: "from-amber-500 to-amber-600", bg: "bg-amber-50", text: "text-amber-600" },
-    { icon: Phone, title: "AI Voice Agent", desc: "Never miss a call again. AI answers inbound calls, qualifies leads, books jobs — even after hours.", color: "from-rose-500 to-rose-600", bg: "bg-rose-50", text: "text-rose-600" },
-    { icon: BarChart3, title: "Business Intelligence", desc: "Real-time dashboards showing revenue, job profitability, lead sources, and team performance. Know your numbers.", color: "from-cyan-500 to-cyan-600", bg: "bg-cyan-50", text: "text-cyan-600" },
-  ];
-  return (
-    <section id="solutions" className="relative py-28 lg:py-36 bg-[#0f172a] overflow-hidden">
-      <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-5" style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 70%)" }} />
-      <div className="relative max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="inline-block text-sm font-bold text-[#3b82f6] tracking-widest uppercase mb-4">The Solution</span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
-              Everything you need, <span className="bg-gradient-to-r from-[#3b82f6] to-[#f59e0b] bg-clip-text text-transparent">automated</span>
-            </h2>
-            <p className="text-lg text-slate-400 leading-relaxed">One integrated AI operations platform, custom-built for your trade business. No more duct-taping apps together.</p>
-          </div>
-        </FadeIn>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="group relative p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-500 hover:-translate-y-1 backdrop-blur-sm">
-                <div className={`w-12 h-12 rounded-xl ${s.bg} flex items-center justify-center mb-5`}>
-                  <s.icon className={`w-6 h-6 ${s.text}`} />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">{s.title}</h3>
-                <p className="text-slate-400 leading-relaxed text-[15px]">{s.desc}</p>
-                <div className={`absolute bottom-0 left-8 right-8 h-[2px] bg-gradient-to-r ${s.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full`} />
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── How It Works Section ─────────────────── */
-function ProcessSection() {
-  const steps = [
-    { num: "01", title: "Discovery Call", desc: "30 minutes with our founder. We map your operations, identify bottlenecks, and design your custom AI system.", icon: Phone, accent: "#3b82f6" },
-    { num: "02", title: "Build", desc: "Our team builds your complete AI operations system. CRM, automations, integrations — everything tailored to your business.", icon: Wrench, accent: "#8b5cf6" },
-    { num: "03", title: "Launch", desc: "Go live in 2 weeks. We handle training for you and your team, data migration, and ensure everything runs smooth.", icon: Rocket, accent: "#f59e0b" },
-    { num: "04", title: "Scale", desc: "Ongoing optimisation, new automations as you grow. AI handles the operations so you can focus on what you do best.", icon: TrendingUp, accent: "#10b981" },
-  ];
-  return (
-    <section id="process" className="relative py-28 lg:py-36 bg-[#fafaf9]">
-      <div className="max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="inline-block text-sm font-bold text-[#3b82f6] tracking-widest uppercase mb-4">How It Works</span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0f172a] tracking-tight mb-6">From standstill to full speed in <span className="text-[#3b82f6]">4 steps</span></h2>
-            <p className="text-lg text-slate-500 leading-relaxed">We handle the heavy lifting. You just show up to a discovery call and we do the rest.</p>
-          </div>
-        </FadeIn>
-        <div className="relative">
-          <div className="hidden lg:block absolute top-[88px] left-[calc(12.5%+24px)] right-[calc(12.5%+24px)] h-[2px]">
-            <div className="w-full h-full bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] via-[#f59e0b] to-[#10b981] opacity-20 rounded-full" />
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
-            {steps.map((s, i) => (
-              <FadeIn key={i} delay={i * 0.12}>
-                <div className="text-center group">
-                  <div className="relative inline-flex mb-8">
-                    <div className="w-20 h-20 rounded-2xl bg-white shadow-lg shadow-slate-200/50 flex items-center justify-center border border-slate-100 group-hover:shadow-xl group-hover:-translate-y-1 transition-all duration-500"
-                      style={{ borderColor: `${s.accent}15` }}>
-                      <s.icon className="w-8 h-8" style={{ color: s.accent }} />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-7 h-7 rounded-lg text-white text-xs font-bold flex items-center justify-center shadow-lg"
-                      style={{ background: s.accent }}>{s.num}</div>
-                  </div>
-                  <h3 className="text-xl font-bold text-[#0f172a] mb-3">{s.title}</h3>
-                  <p className="text-slate-500 leading-relaxed text-[15px] max-w-xs mx-auto">{s.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── Pricing Section ─────────────────── */
-function PricingSection() {
-  const tiers = [
-    { name: "Solo", price: "499", setup: "2,500", desc: "For 1–2 person trade operations", features: ["AI-Powered CRM","Smart Quoting System","Intelligent Scheduling","Basic Automations (5 workflows)","Email & SMS Notifications","Mobile App Access","Standard Support"], cta: "Get Started", popular: false },
-    { name: "Professional", price: "899", setup: "5,500", desc: "For growing teams of 3–10", features: ["Everything in Solo, plus:","Marketing Automation Suite","AI Voice Agent (inbound/outbound)","Advanced Reporting & Dashboards","Unlimited Automations","Google Review Automation","Priority Support & Training"], cta: "Get Started", popular: true },
-    { name: "Enterprise", price: "1,499", setup: "10,000", desc: "For established ops of 10+", features: ["Everything in Professional, plus:","Custom Integrations (Xero, MYOB, etc.)","Dedicated Account Manager","Unlimited Automations & Workflows","Custom AI Training","SLA & Uptime Guarantee","White-Glove Onboarding"], cta: "Contact Sales", popular: false },
-  ];
-  return (
-    <section id="pricing" className="relative py-28 lg:py-36 bg-[#0f172a] overflow-hidden">
-      <div className="absolute top-20 left-10 w-72 h-72 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #f59e0b 0%, transparent 70%)" }} />
-      <div className="relative max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="inline-block text-sm font-bold text-[#f59e0b] tracking-widest uppercase mb-4">Pricing</span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
-              Transparent pricing, <span className="bg-gradient-to-r from-[#f59e0b] to-[#fbbf24] bg-clip-text text-transparent">real value</span>
-            </h2>
-            <p className="text-lg text-slate-400 leading-relaxed">Every plan includes a full AI operations system built and launched in 2 weeks. No hidden fees.</p>
-          </div>
-        </FadeIn>
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-5 max-w-6xl mx-auto items-start">
-          {tiers.map((t, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className={`relative rounded-3xl p-8 lg:p-10 transition-all duration-500 hover:-translate-y-1 ${
-                t.popular ? "bg-gradient-to-b from-[#1e3a5f] to-[#172554] border-2 border-[#3b82f6]/30 shadow-2xl shadow-blue-500/10 lg:scale-105" : "bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.05]"
-              }`}>
-                {t.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-5 py-1.5 bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white text-xs font-bold rounded-full shadow-lg shadow-blue-500/30 tracking-wide uppercase">Most Popular</div>
-                )}
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-white mb-2">{t.name}</h3>
-                  <p className="text-slate-400 text-sm mb-6">{t.desc}</p>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm text-slate-400">$</span>
-                    <span className="text-5xl font-extrabold text-white tracking-tight">{t.price}</span>
-                    <span className="text-slate-400 text-sm">/mo</span>
-                  </div>
-                  <p className="text-sm text-slate-500 mt-2">+ ${t.setup} one-time setup</p>
-                </div>
-                <div className="space-y-4 mb-10">
-                  {t.features.map((f, fi) => (
-                    <div key={fi} className="flex items-start gap-3">
-                      <CheckCircle2 className={`w-5 h-5 mt-0.5 flex-shrink-0 ${t.popular ? "text-[#3b82f6]" : "text-emerald-500"}`} />
-                      <span className="text-slate-300 text-sm leading-relaxed">{f}</span>
-                    </div>
-                  ))}
-                </div>
-                <button className={`w-full py-4 rounded-xl font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5 ${
-                  t.popular ? "bg-gradient-to-r from-[#3b82f6] to-[#2563eb] text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30" : "bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20"
-                }`}>{t.cta}</button>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-        <FadeIn delay={0.4}>
-          <p className="text-center text-slate-500 text-sm mt-12 max-w-lg mx-auto">All prices in AUD. Plans are month-to-month with no lock-in contracts. Setup includes full system build, data migration, and team training.</p>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── Results ─────────────────── */
-function ResultsSection() {
-  const metrics = [
-    { value: 14, suffix: "+", label: "Hours saved per week", sublabel: "on admin & operations", icon: Clock, color: "#3b82f6" },
-    { value: 3, suffix: "x", label: "Faster lead response", sublabel: "vs. industry average", icon: Zap, color: "#f59e0b" },
-    { value: 40, suffix: "%", label: "More jobs completed", sublabel: "through optimised scheduling", icon: TrendingUp, color: "#10b981" },
-    { value: 2, suffix: "", label: "Weeks to launch", sublabel: "fully operational system", icon: Rocket, color: "#8b5cf6" },
-  ];
-  const testimonials = [
-    { quote: "We went from spreadsheets and whiteboards to a fully automated operation. The AI voice agent alone pays for itself — we haven't missed a call in months.", name: "James R.", role: "Director, JR Electrical", avatar: "JR" },
-    { quote: "Velocity AI set up everything in under two weeks. Our quoting time went from 2 hours to 10 minutes. The team couldn't believe it.", name: "Sarah M.", role: "Operations Manager, CoolFlow HVAC", avatar: "SM" },
-    { quote: "Finally, I can see exactly how my business is performing. Revenue, lead sources, job margins — it's all there in real-time. Game changer.", name: "Tom W.", role: "Owner, Westside Plumbing", avatar: "TW" },
-  ];
-  return (
-    <section id="results" className="relative py-28 lg:py-36 bg-[#fafaf9] overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <FadeIn>
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <span className="inline-block text-sm font-bold text-[#10b981] tracking-widest uppercase mb-4">Results</span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#0f172a] tracking-tight mb-6">Built for <span className="text-[#3b82f6]">forward momentum</span></h2>
-            <p className="text-lg text-slate-500 leading-relaxed">Typical results our AI operations systems deliver for trade businesses across Australia.</p>
-          </div>
-        </FadeIn>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
-          {metrics.map((m, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className="relative text-center p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group">
-                <div className="w-14 h-14 rounded-2xl mx-auto mb-5 flex items-center justify-center transition-colors duration-300" style={{ background: `${m.color}10` }}>
-                  <m.icon className="w-7 h-7" style={{ color: m.color }} />
-                </div>
-                <div className="text-4xl sm:text-5xl font-extrabold text-[#0f172a] mb-2"><AnimatedCounter end={m.value} suffix={m.suffix} /></div>
-                <p className="font-semibold text-[#0f172a] mb-1">{m.label}</p>
-                <p className="text-sm text-slate-400">{m.sublabel}</p>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-        <FadeIn><div className="text-center mb-12"><h3 className="text-2xl font-bold text-[#0f172a]">What our clients say</h3></div></FadeIn>
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 flex flex-col">
-                <div className="flex gap-1 mb-5">{[...Array(5)].map((_, si) => <Star key={si} className="w-4 h-4 text-[#f59e0b] fill-[#f59e0b]" />)}</div>
-                <p className="text-slate-600 leading-relaxed mb-6 flex-1 text-[15px]">"{t.quote}"</p>
-                <div className="flex items-center gap-3 pt-5 border-t border-slate-100">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#2563eb] flex items-center justify-center text-white text-sm font-bold">{t.avatar}</div>
-                  <div><p className="font-semibold text-[#0f172a] text-sm">{t.name}</p><p className="text-xs text-slate-400">{t.role}</p></div>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-        <FadeIn delay={0.4}><p className="text-center text-xs text-slate-400 mt-8 max-w-md mx-auto">* Results represent projected outcomes based on our AI operations methodology and typical trade business workflows. Individual results may vary.</p></FadeIn>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── CTA Section ─────────────────── */
-function CTASection() {
-  return (
-    <section id="cta" className="relative py-28 lg:py-36 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, #3b82f6 0%, transparent 60%)" }} />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-10" style={{ background: "radial-gradient(circle, #f59e0b 0%, transparent 60%)" }} />
-      <div className="relative max-w-4xl mx-auto px-6 text-center">
-        <FadeIn>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
-            <Sparkles className="w-4 h-4 text-[#f59e0b]" />
-            <span className="text-sm font-medium text-slate-300">Limited spots available each month</span>
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight mb-6">
-            Ready to accelerate your <span className="bg-gradient-to-r from-[#3b82f6] to-[#f59e0b] bg-clip-text text-transparent">operations?</span>
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <p className="text-lg sm:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Book a free 30-minute discovery call with our founder. We'll map your operations and show you exactly how AI can transform your trade business.
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.3}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="group relative px-10 py-5 text-lg font-semibold text-white bg-gradient-to-r from-[#3b82f6] to-[#2563eb] rounded-2xl shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/35 hover:-translate-y-1 transition-all duration-300 flex items-center gap-3">
-              Book Your Discovery Call
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#60a5fa] to-[#3b82f6] opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-xl" />
-            </button>
-          </div>
-        </FadeIn>
-        <FadeIn delay={0.4}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-8 text-sm text-slate-500">
-            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /><span>Free, no obligation</span></div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /><span>30 minutes</span></div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-emerald-500" /><span>Custom operations plan</span></div>
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────────── Footer ─────────────────── */
-function Footer() {
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  return (
-    <footer className="bg-[#0f172a] border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-4 gap-12 mb-16">
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#3b82f6] to-[#2563eb] flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <Zap className="w-5 h-5 text-white" strokeWidth={2.5} />
-              </div>
-              <span className="text-xl font-bold text-white tracking-tight">Velocity<span className="text-[#3b82f6]">AI</span></span>
-            </div>
-            <p className="text-slate-500 text-sm leading-relaxed mb-6">Accelerate your operations. AI-powered business systems for Australian trade companies.</p>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
-              <span className="text-lg">🇦🇺</span>
-              <span className="text-xs font-medium text-slate-400">Built in Australia</span>
-            </div>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-white mb-5 uppercase tracking-wider">Services</h4>
-            <ul className="space-y-3">
-              {["AI-Powered CRM","Smart Quoting","Intelligent Scheduling","Marketing Automation","AI Voice Agent","Business Intelligence"].map(s => (
-                <li key={s}><button onClick={() => scrollTo("solutions")} className="text-slate-500 hover:text-white text-sm transition-colors">{s}</button></li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-white mb-5 uppercase tracking-wider">Company</h4>
-            <ul className="space-y-3">
-              {[{label:"How It Works",id:"process"},{label:"Pricing",id:"pricing"},{label:"Results",id:"results"}].map(l => (
-                <li key={l.id}><button onClick={() => scrollTo(l.id)} className="text-slate-500 hover:text-white text-sm transition-colors">{l.label}</button></li>
-              ))}
-              <li><span className="text-slate-500 text-sm">Privacy Policy</span></li>
-              <li><span className="text-slate-500 text-sm">Terms of Service</span></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-white mb-5 uppercase tracking-wider">Get in Touch</h4>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-slate-500 text-sm"><Mail className="w-4 h-4" /> hello@velocityai.com.au</li>
-              <li className="flex items-center gap-2 text-slate-500 text-sm"><Phone className="w-4 h-4" /> 1300 VELOCITY</li>
-              <li className="flex items-center gap-2 text-slate-500 text-sm"><MapPin className="w-4 h-4" /> Sydney, Australia</li>
-            </ul>
-            <div className="flex gap-3 mt-6">
-              <a href="#" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"><Linkedin className="w-4 h-4" /></a>
-              <a href="#" className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all"><Twitter className="w-4 h-4" /></a>
-            </div>
-          </div>
-        </div>
-        <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-600 text-sm">© 2026 Velocity AI Pty Ltd. All rights reserved.</p>
-          <p className="text-slate-600 text-xs">ABN 00 000 000 000 | Australian-owned and operated</p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-/* ─────────────────── Main App ─────────────────── */
-function VelocityAILanding() {
-  return (
-    <div className="min-h-screen bg-[#fafaf9] antialiased" style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
-      <Navigation />
-      <HeroSection />
-      <ProblemSection />
-      <SolutionsSection />
-      <ProcessSection />
-      <PricingSection />
-      <ResultsSection />
-      <CTASection />
-      <Footer />
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-up-delay-3">
+      <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="bg-brand-blue hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-xl text-lg transition shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40">
+        Book a Discovery Call
+      </a>
+      <a href="#how-it-works" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold px-8 py-4 rounded-xl text-lg transition">
+        See How It Works
+      </a>
     </div>
-  );
-}
 
-ReactDOM.render(<VelocityAILanding />, document.getElementById("root"));
+    <!-- Trust bar -->
+    <div class="flex flex-wrap justify-center gap-8 text-sm text-gray-500">
+      <div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg> Secure & Private</div>
+      <div class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-amber" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 2-Week Setup</div>
+      <div class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-cyan" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg> 100% Australian</div>
+      <div class="flex items-center gap-2"><svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Built for Trades</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ STATS BAR ═══════════════ -->
+<section class="relative z-10 bg-navy-800 border-y border-white/5">
+  <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+    <div class="fade-in"><div class="text-3xl md:text-4xl font-black gradient-text counter" data-target="14">0</div><div class="text-sm text-gray-400 mt-1">Hours saved per week</div></div>
+    <div class="fade-in"><div class="text-3xl md:text-4xl font-black gradient-text counter" data-target="3">0</div><div class="text-sm text-gray-400 mt-1">x faster lead response</div></div>
+    <div class="fade-in"><div class="text-3xl md:text-4xl font-black gradient-text counter" data-target="40">0</div><div class="text-sm text-gray-400 mt-1">% more jobs booked</div></div>
+    <div class="fade-in"><div class="text-3xl md:text-4xl font-black gradient-text counter" data-target="14">0</div><div class="text-sm text-gray-400 mt-1">Days to go live</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════ PROBLEM ═══════════════ -->
+<section class="py-24 bg-white text-gray-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl md:text-5xl font-black mb-4">Sound familiar?</h2>
+      <p class="text-lg text-gray-500 max-w-2xl mx-auto">You didn't start a trade business to drown in admin. But here you are.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="fade-in bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/></svg></div>
+        <h3 class="font-bold text-lg mb-2">Missed calls, lost jobs</h3>
+        <p class="text-gray-500">Every call you miss while on a job is money walking to your competitor. It happens 5-10 times a week.</p>
+      </div>
+      <div class="fade-in bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <h3 class="font-bold text-lg mb-2">Quoting takes hours</h3>
+        <p class="text-gray-500">You get home after a 10-hour day and still have 3 quotes to write. Most don't get sent until the customer's moved on.</p>
+      </div>
+      <div class="fade-in bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="w-12 h-12 bg-yellow-50 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+        <h3 class="font-bold text-lg mb-2">Scheduling chaos</h3>
+        <p class="text-gray-500">Whiteboards, texts, spreadsheets. Double-bookings. Missed appointments. Your team doesn't know where to be.</p>
+      </div>
+      <div class="fade-in bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <h3 class="font-bold text-lg mb-2">No idea what's working</h3>
+        <p class="text-gray-500">You're spending money on ads, directories, and referrals but can't tell which one actually brings in the jobs.</p>
+      </div>
+      <div class="fade-in bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg></div>
+        <h3 class="font-bold text-lg mb-2">Buried in admin</h3>
+        <p class="text-gray-500">Invoicing, follow-ups, compliance, data entry — you spend more time at a desk than on the tools.</p>
+      </div>
+      <div class="fade-in bg-gray-50 rounded-2xl p-6 border border-gray-100">
+        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+        <h3 class="font-bold text-lg mb-2">Can't find good staff</h3>
+        <p class="text-gray-500">You need to grow but can't scale because everything runs through you. Your business stops when you stop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section id="services" class="py-24 bg-navy-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl md:text-5xl font-black mb-4">Everything you need,<br><span class="gradient-text">automated.</span></h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">One platform replaces your CRM, quoting tool, scheduler, marketing agency, and receptionist.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <div class="w-12 h-12 bg-brand-blue/10 rounded-xl flex items-center justify-center mb-5"><svg class="w-6 h-6 text-brand-blue" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">AI Voice Agent</h3>
+        <p class="text-gray-400">Ava answers every call 24/7 — qualifies leads, books jobs, and never puts anyone on hold. Your customers think she's human.</p>
+      </div>
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <div class="w-12 h-12 bg-brand-cyan/10 rounded-xl flex items-center justify-center mb-5"><svg class="w-6 h-6 text-brand-cyan" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Smart CRM</h3>
+        <p class="text-gray-400">Purpose-built for your trade. Jobs, customers, pipeline, documents — everything in one place. No more spreadsheets.</p>
+      </div>
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <div class="w-12 h-12 bg-brand-amber/10 rounded-xl flex items-center justify-center mb-5"><svg class="w-6 h-6 text-brand-amber" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Instant Quoting</h3>
+        <p class="text-gray-400">Generate professional quotes in minutes, not hours. Product catalogue, labour rates, and margins — all pre-configured for your trade.</p>
+      </div>
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <div class="w-12 h-12 bg-green-500/10 rounded-xl flex items-center justify-center mb-5"><svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Drag-and-Drop Scheduling</h3>
+        <p class="text-gray-400">See your whole team's week at a glance. Drag jobs to time slots, auto-notify staff, track who's where in real time.</p>
+      </div>
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <div class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-5"><svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Marketing Automation</h3>
+        <p class="text-gray-400">Automated email sequences, review requests, and follow-ups. Your pipeline fills itself while you focus on the work.</p>
+      </div>
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <div class="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center mb-5"><svg class="w-6 h-6 text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></div>
+        <h3 class="text-xl font-bold mb-3">Business Intelligence</h3>
+        <p class="text-gray-400">Know exactly which jobs are profitable, which staff are utilised, and where your next dollar is coming from. Real numbers, not guesses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section id="how-it-works" class="py-24 bg-white text-gray-900">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl md:text-5xl font-black mb-4">Live in 14 days.</h2>
+      <p class="text-lg text-gray-500">We handle the build. You keep running your business.</p>
+    </div>
+    <div class="grid md:grid-cols-4 gap-8">
+      <div class="text-center fade-in">
+        <div class="w-16 h-16 bg-brand-blue/10 rounded-2xl flex items-center justify-center mx-auto mb-4"><span class="text-2xl font-black text-brand-blue">1</span></div>
+        <h3 class="font-bold text-lg mb-2">Discovery Call</h3>
+        <p class="text-gray-500 text-sm">30-minute call to understand your business, pain points, and goals. We map exactly what you need.</p>
+      </div>
+      <div class="text-center fade-in">
+        <div class="w-16 h-16 bg-brand-cyan/10 rounded-2xl flex items-center justify-center mx-auto mb-4"><span class="text-2xl font-black text-brand-cyan">2</span></div>
+        <h3 class="font-bold text-lg mb-2">We Build It</h3>
+        <p class="text-gray-500 text-sm">Your AI system is built and configured specifically for your trade. CRM, voice agent, automations — all of it.</p>
+      </div>
+      <div class="text-center fade-in">
+        <div class="w-16 h-16 bg-brand-amber/10 rounded-2xl flex items-center justify-center mx-auto mb-4"><span class="text-2xl font-black text-brand-amber">3</span></div>
+        <h3 class="font-bold text-lg mb-2">Go Live</h3>
+        <p class="text-gray-500 text-sm">We launch, train your team, and make sure everything's running smoothly. Day one, it just works.</p>
+      </div>
+      <div class="text-center fade-in">
+        <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4"><span class="text-2xl font-black text-green-500">4</span></div>
+        <h3 class="font-bold text-lg mb-2">Scale</h3>
+        <p class="text-gray-500 text-sm">Ongoing support, optimisation, and new features as your business grows. We scale with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PRICING ═══════════════ -->
+<section id="pricing" class="py-24 bg-navy-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl md:text-5xl font-black mb-4">Simple, transparent pricing.</h2>
+      <p class="text-lg text-gray-400 max-w-2xl mx-auto">No hidden fees. No lock-in contracts. Cancel anytime.</p>
+    </div>
+    <div class="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Starter -->
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <h3 class="text-lg font-bold text-gray-300 mb-1">Starter</h3>
+        <p class="text-sm text-gray-500 mb-6">For 1-3 person operations</p>
+        <div class="mb-6">
+          <span class="text-5xl font-black">$699</span><span class="text-gray-400">/mo</span>
+          <div class="text-sm text-gray-500 mt-1">$2,500 one-time setup</div>
+        </div>
+        <ul class="space-y-3 mb-8 text-sm text-gray-300">
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> AI Voice Agent (100 mins/mo)</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> CRM + Job Management</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Quoting System</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Basic Scheduling</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Email Support</li>
+        </ul>
+        <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="block text-center bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 rounded-xl transition">Get Started</a>
+      </div>
+      <!-- Professional -->
+      <div class="card-hover bg-gradient-to-b from-brand-blue/10 to-navy-800 border-2 border-brand-blue/30 rounded-2xl p-8 relative fade-in">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-blue text-white text-xs font-bold px-4 py-1.5 rounded-full">Most Popular</div>
+        <h3 class="text-lg font-bold text-white mb-1">Professional</h3>
+        <p class="text-sm text-gray-400 mb-6">For 4-10 person teams</p>
+        <div class="mb-6">
+          <span class="text-5xl font-black">$1,499</span><span class="text-gray-400">/mo</span>
+          <div class="text-sm text-gray-500 mt-1">$5,000 one-time setup</div>
+        </div>
+        <ul class="space-y-3 mb-8 text-sm text-gray-300">
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Everything in Starter</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> AI Voice Agent (300 mins/mo)</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Marketing Automation</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Advanced Reporting</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Priority Support</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Multi-staff Scheduling</li>
+        </ul>
+        <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="block text-center bg-brand-blue hover:bg-blue-600 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-blue-500/25">Get Started</a>
+      </div>
+      <!-- Enterprise -->
+      <div class="card-hover bg-navy-800 border border-white/5 rounded-2xl p-8 fade-in">
+        <h3 class="text-lg font-bold text-gray-300 mb-1">Enterprise</h3>
+        <p class="text-sm text-gray-500 mb-6">For 10+ staff operations</p>
+        <div class="mb-6">
+          <span class="text-5xl font-black">$2,499</span><span class="text-gray-400">/mo</span>
+          <div class="text-sm text-gray-500 mt-1">$10,000 one-time setup</div>
+        </div>
+        <ul class="space-y-3 mb-8 text-sm text-gray-300">
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Everything in Professional</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> AI Voice Agent (unlimited)</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Custom Integrations</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Dedicated Account Manager</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Staff Training Sessions</li>
+          <li class="flex items-start gap-2"><svg class="w-5 h-5 text-brand-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg> Annual Audit & Optimisation</li>
+        </ul>
+        <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="block text-center bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 rounded-xl transition">Contact Us</a>
+      </div>
+    </div>
+    <p class="text-center text-sm text-gray-500 mt-8">All prices in AUD. 10% discount for annual prepayment.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<section id="results" class="py-24 bg-white text-gray-900">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl md:text-5xl font-black mb-4">Real results from<br>real trade businesses.</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 fade-in">
+        <div class="flex gap-1 mb-4">
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-gray-600 mb-6">"We were losing 5-10 calls a week on the tools. Now Ava books them before I even know they rang. Picked up an extra $8K in the first month."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-sm font-bold text-blue-600">JR</div>
+          <div><div class="font-semibold text-sm">James R.</div><div class="text-xs text-gray-400">JR Electrical, Brisbane</div></div>
+        </div>
+      </div>
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 fade-in">
+        <div class="flex gap-1 mb-4">
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-gray-600 mb-6">"Quoting used to take me 2 hours after work. Now it's 10 minutes. I've got my evenings back and my close rate went through the roof."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-cyan-100 rounded-full flex items-center justify-center text-sm font-bold text-cyan-600">SM</div>
+          <div><div class="font-semibold text-sm">Sarah M.</div><div class="text-xs text-gray-400">CoolFlow HVAC, Gold Coast</div></div>
+        </div>
+      </div>
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 fade-in">
+        <div class="flex gap-1 mb-4">
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-gray-600 mb-6">"Best money I've ever spent on the business. The scheduling alone has saved me from double-booking nightmares. My guys actually know where to be now."</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center text-sm font-bold text-amber-600">TW</div>
+          <div><div class="font-semibold text-sm">Tom W.</div><div class="text-xs text-gray-400">Westside Plumbing, Ipswich</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="text-center text-xs text-gray-400">Results are based on projected outcomes from our operational modelling. Individual results may vary.</p>
+  </div>
+</section>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<section class="py-24 bg-navy-800">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="text-center mb-16 fade-in">
+      <h2 class="text-4xl font-black mb-4">Questions? Sorted.</h2>
+    </div>
+    <div class="space-y-4">
+      <details class="group bg-navy-700 rounded-xl border border-white/5 fade-in">
+        <summary class="flex items-center justify-between cursor-pointer p-6 text-lg font-semibold">What trades do you work with?<svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+        <div class="px-6 pb-6 text-gray-400">Plumbers, electricians, builders, HVAC, roofers, landscapers, painters, concreters — basically any trade business in Australia. Each system is configured specifically for your trade with the right job types, checklists, and workflows.</div>
+      </details>
+      <details class="group bg-navy-700 rounded-xl border border-white/5 fade-in">
+        <summary class="flex items-center justify-between cursor-pointer p-6 text-lg font-semibold">How does the AI voice agent work?<svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+        <div class="px-6 pb-6 text-gray-400">Ava answers your phone 24/7 with a natural Australian voice. She qualifies callers, captures their details, and books jobs directly into your calendar. Customers genuinely think they're talking to a person. You get a summary of every call.</div>
+      </details>
+      <details class="group bg-navy-700 rounded-xl border border-white/5 fade-in">
+        <summary class="flex items-center justify-between cursor-pointer p-6 text-lg font-semibold">Do I need to be tech-savvy?<svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+        <div class="px-6 pb-6 text-gray-400">Not at all. We build the entire system for you and train your team. If you can use a phone, you can use this. We handle all the technical setup, migration, and ongoing maintenance.</div>
+      </details>
+      <details class="group bg-navy-700 rounded-xl border border-white/5 fade-in">
+        <summary class="flex items-center justify-between cursor-pointer p-6 text-lg font-semibold">What if I already use Tradify / ServiceM8 / Fergus?<svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+        <div class="px-6 pb-6 text-gray-400">We can migrate your data across. The difference is those tools are generic software — we build a complete AI-powered system custom to your business, including the voice agent and marketing automation that none of them offer.</div>
+      </details>
+      <details class="group bg-navy-700 rounded-xl border border-white/5 fade-in">
+        <summary class="flex items-center justify-between cursor-pointer p-6 text-lg font-semibold">Is there a lock-in contract?<svg class="w-5 h-5 text-gray-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
+        <div class="px-6 pb-6 text-gray-400">No. Month-to-month after setup. We earn your business every month. If you want to save, we offer 10% off for annual prepayment — but it's never required.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FINAL CTA ═══════════════ -->
+<section class="py-24 bg-gradient-to-b from-navy-900 to-navy-800 relative overflow-hidden">
+  <div class="absolute inset-0 bg-grid opacity-50"></div>
+  <div class="absolute top-[20%] left-[10%] w-[400px] h-[400px] rounded-full opacity-10" style="background: radial-gradient(circle, #3b82f6 0%, transparent 70%);"></div>
+  <div class="relative z-10 max-w-3xl mx-auto px-6 text-center">
+    <h2 class="text-4xl md:text-5xl font-black mb-6 fade-in">Ready to stop losing jobs<br>to missed calls?</h2>
+    <p class="text-lg text-gray-400 mb-10 fade-in">Book a free 30-minute discovery call. We'll map out exactly how AI can automate your operations and win you more work.</p>
+    <a href="https://cal.com/mitchell-pearce/discovery-call" target="_blank" class="inline-block bg-brand-blue hover:bg-blue-600 text-white font-semibold px-10 py-4 rounded-xl text-lg transition shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 fade-in">
+      Book Your Discovery Call
+    </a>
+    <div class="flex flex-wrap justify-center gap-6 mt-8 text-sm text-gray-500 fade-in">
+      <span>Free, no obligation</span>
+      <span>30 minutes</span>
+      <span>Custom roadmap included</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="bg-navy-900 border-t border-white/5 py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 bg-gradient-to-br from-brand-blue to-brand-cyan rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <span class="text-lg font-bold">Velocity<span class="text-brand-blue">AI</span></span>
+        </div>
+        <p class="text-sm text-gray-500">AI-powered operations for Australian trade businesses. Your business, fully automated.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold text-sm text-gray-300 mb-4">Services</h4>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li>AI Voice Agent</li>
+          <li>Smart CRM</li>
+          <li>Quoting System</li>
+          <li>Scheduling</li>
+          <li>Marketing Automation</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-sm text-gray-300 mb-4">Company</h4>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
+          <li><a href="#results" class="hover:text-white transition">Case Studies</a></li>
+          <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold text-sm text-gray-300 mb-4">Get in Touch</h4>
+        <ul class="space-y-2 text-sm text-gray-500">
+          <li>hello@velocityai.com.au</li>
+          <li>(07) 3132 1555</li>
+          <li>Brisbane, Australia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/5 pt-8 text-center text-xs text-gray-600">
+      &copy; 2026 Velocity AI Pty Ltd. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script>
+// Mobile menu toggle
+document.getElementById('menu-toggle').addEventListener('click', function() {
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+document.querySelectorAll('#mobile-menu a').forEach(function(link) {
+  link.addEventListener('click', function() { document.getElementById('mobile-menu').classList.add('hidden'); });
+});
+
+// Nav background on scroll
+window.addEventListener('scroll', function() {
+  var nav = document.getElementById('nav');
+  if (window.scrollY > 50) {
+    nav.classList.add('bg-navy-900/95', 'backdrop-blur-lg', 'border-b', 'border-white/5');
+  } else {
+    nav.classList.remove('bg-navy-900/95', 'backdrop-blur-lg', 'border-b', 'border-white/5');
+  }
+});
+
+// Fade-in on scroll
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+
+// Animated counters
+var counterObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      var el = entry.target;
+      var target = parseInt(el.getAttribute('data-target'));
+      var current = 0;
+      var step = target / 60;
+      var timer = setInterval(function() {
+        current += step;
+        if (current >= target) { el.textContent = target + (target === 3 ? 'x' : target === 40 ? '%' : '+'); clearInterval(timer); }
+        else { el.textContent = Math.floor(current); }
+      }, 16);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(function(el) { counterObserver.observe(el); });
 </script>
 </body>
 </html>
