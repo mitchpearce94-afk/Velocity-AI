@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 195" width="500" height="195">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&amp;display=swap');
+    </style>
+  </defs>
+  <title>Velocity AI - Full Logo</title>
+  <!-- V Mark centered above wordmark -->
+  <g transform="translate(200, 8)">
+    <path d="M4,0 L34,0 L42,18 L27,41Z" fill="#1e3a5f"/>
+    <path d="M22,37 L50,88 L96,0 L66,0 L50,46 L38,14Z" fill="#1e3a5f"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="250" y="152"
+        text-anchor="middle"
+        font-family="'Montserrat', 'Inter', 'Helvetica Neue', Arial, sans-serif"
+        font-weight="700"
+        font-size="40"
+        fill="#1e3a5f"
+        letter-spacing="0.25em">VELOCITY AI</text>
+</svg>

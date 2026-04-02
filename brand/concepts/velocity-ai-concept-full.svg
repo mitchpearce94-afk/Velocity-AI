@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" width="900" height="300">
+  <!--
+    VELOCITY AI — v7
+    Matching nano banana reference exactly.
+    Split V mark with trajectory arrow.
+    Bold, wide, thick geometric sans-serif wordmark.
+  -->
+
+  <!-- V Mark — thick solid split V -->
+  <g fill="#1e3a5f">
+    <!-- Left arm -->
+    <polygon points="355,8 405,8 458,155 418,155"/>
+    <!-- Right arm -->
+    <polygon points="545,8 495,8 442,155 482,155"/>
+    <!-- Trajectory arrow swooping off top right -->
+    <polygon points="520,18 558,8 548,22 570,14 530,38 540,26 510,32"/>
+  </g>
+
+  <!-- VELOCITY AI — bold wide geometric sans-serif, heavy weight -->
+  <g fill="#1e3a5f">
+
+    <!-- V -->
+    <polygon points="108,200 130,200 168,282 148,282"/>
+    <polygon points="228,200 206,200 168,282 188,282"/>
+
+    <!-- E — Tesla slit: three thick bars -->
+    <rect x="255" y="200" width="52" height="13"/>
+    <rect x="255" y="234" width="42" height="13"/>
+    <rect x="255" y="269" width="52" height="13"/>
+
+    <!-- L -->
+    <rect x="334" y="200" width="13" height="82"/>
+    <rect x="334" y="269" width="46" height="13"/>
+
+    <!-- O -->
+    <path fill-rule="evenodd" d="M407,200 L457,200 L457,282 L407,282 Z M420,213 L420,269 L444,269 L444,213 Z"/>
+
+    <!-- C -->
+    <rect x="484" y="200" width="48" height="13"/>
+    <rect x="484" y="200" width="13" height="82"/>
+    <rect x="484" y="269" width="48" height="13"/>
+
+    <!-- I -->
+    <rect x="559" y="200" width="13" height="82"/>
+
+    <!-- T -->
+    <rect x="596" y="200" width="52" height="13"/>
+    <rect x="616" y="200" width="13" height="82"/>
+
+    <!-- Y -->
+    <polygon points="674,200 692,200 712,238 712,282 699,282 699,238"/>
+    <polygon points="750,200 732,200 712,238 712,250 725,250 725,238"/>
+
+    <!-- A -->
+    <path fill-rule="evenodd" d="M785,282 L807,200 L823,200 L845,282 L830,282 L824,260 L806,260 L800,282 Z M809,248 L821,248 L815,222 Z"/>
+
+    <!-- I -->
+    <rect x="872" y="200" width="13" height="82"/>
+
+  </g>
+</svg>

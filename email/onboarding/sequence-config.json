@@ -1,0 +1,95 @@
+{
+  "name": "Client Onboarding Sequence",
+  "description": "Automated email sequence triggered after a client pays their setup deposit. Guides them through intake, build, and go-live.",
+  "trigger": "stripe_payment_received",
+  "emails": [
+    {
+      "id": "onboard-01-payment",
+      "template": "01-payment-confirmation.html",
+      "subject": "Payment confirmed — your Velocity AI build starts now, {{first_name}}",
+      "sender": "Velocity AI <hello@velocityai.com.au>",
+      "delay": "immediate",
+      "variables": [
+        "first_name",
+        "tier_name",
+        "deposit_amount",
+        "remaining_amount",
+        "monthly_amount"
+      ]
+    },
+    {
+      "id": "onboard-02-intake",
+      "template": "02-intake-form.html",
+      "subject": "Quick form to fill out — {{first_name}}, this gets your build started",
+      "sender": "Mitchell Pearce <mitchell@velocityai.com.au>",
+      "delay": "4_hours",
+      "variables": [
+        "first_name",
+        "intake_form_url"
+      ],
+      "notes": "Sent 4 hours after payment confirmation. Gives them time to feel good about the purchase before hitting them with homework."
+    },
+    {
+      "id": "onboard-03-build-update-1",
+      "template": "03-build-update.html",
+      "subject": "Build update — Day {{build_day}}: {{progress_percent}}% done",
+      "sender": "Mitchell Pearce <mitchell@velocityai.com.au>",
+      "delay": "day_5",
+      "variables": [
+        "first_name",
+        "build_day",
+        "progress_percent",
+        "completed_items",
+        "in_progress_items",
+        "upcoming_items",
+        "action_needed"
+      ],
+      "notes": "First build update sent around day 5. Keep the client engaged and excited during the build phase."
+    },
+    {
+      "id": "onboard-03-build-update-2",
+      "template": "03-build-update.html",
+      "subject": "Almost there — Day {{build_day}}: {{progress_percent}}% complete",
+      "sender": "Mitchell Pearce <mitchell@velocityai.com.au>",
+      "delay": "day_10",
+      "variables": [
+        "first_name",
+        "build_day",
+        "progress_percent",
+        "completed_items",
+        "in_progress_items",
+        "upcoming_items",
+        "action_needed"
+      ],
+      "notes": "Second build update around day 10. Should be 80%+ complete. Mention training session scheduling."
+    },
+    {
+      "id": "onboard-04-go-live",
+      "template": "04-go-live.html",
+      "subject": "You're live, {{first_name}} — your Velocity AI system is ready",
+      "sender": "Velocity AI <hello@velocityai.com.au>",
+      "delay": "day_14",
+      "variables": [
+        "first_name"
+      ],
+      "notes": "Sent after training is complete and system is live. Triggers the second half of the setup fee invoice and starts the monthly subscription."
+    }
+  ],
+  "tier_variables": {
+    "Starter": {
+      "deposit_amount": "$1,250",
+      "remaining_amount": "$1,250",
+      "monthly_amount": "$699"
+    },
+    "Professional": {
+      "deposit_amount": "$2,500",
+      "remaining_amount": "$2,500",
+      "monthly_amount": "$1,499"
+    },
+    "Enterprise": {
+      "deposit_amount": "$5,000",
+      "remaining_amount": "$5,000",
+      "monthly_amount": "$2,499"
+    }
+  }
+}

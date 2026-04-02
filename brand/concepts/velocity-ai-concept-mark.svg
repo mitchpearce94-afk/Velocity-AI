@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="200" height="160">
+  <!-- V Mark v5 — split V with gap where arms meet -->
+  <g fill="#1e3a5f">
+    <!-- Left arm — shorter, ends before vertex -->
+    <polygon points="20,10 50,10 97,128 72,128"/>
+    <!-- Right arm — taller sweep, ends before vertex with gap -->
+    <polygon points="180,10 150,10 103,128 128,128"/>
+  </g>
+</svg>
