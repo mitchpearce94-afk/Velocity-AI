@@ -49,7 +49,7 @@ except ImportError:
 
 RETELL_API_KEY = os.environ.get("RETELL_API_KEY", "")
 RETELL_API_BASE = "https://api.retellai.com"
-RETELL_AGENT_IDS = os.environ.get("RETELL_AGENT_IDS", "agent_1d400d75a828e64b46123e110e,agent_aa8e60f56b982f94895b34e529").split(",")
+RETELL_AGENT_IDS = os.environ.get("RETELL_AGENT_IDS", "").split(",") if os.environ.get("RETELL_AGENT_IDS") else []
 RETELL_AGENT_ID = RETELL_AGENT_IDS[0]  # Primary agent
 
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")

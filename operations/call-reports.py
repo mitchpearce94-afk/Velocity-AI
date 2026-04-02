@@ -35,7 +35,7 @@ except ImportError:
 # ---------------------------------------------------------------------------
 RETELL_API_KEY = os.environ.get("RETELL_API_KEY", "")
 RETELL_BASE_URL = "https://api.retellai.com"
-AGENT_ID = os.environ.get("RETELL_REPORT_AGENT_ID", "agent_d20f1e490c9505de0d6453aafa")
+AGENT_ID = os.environ.get("RETELL_REPORT_AGENT_ID", "")
 
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 MITCHELL_EMAIL = os.environ.get("MITCHELL_EMAIL", "mitchpearce94@gmail.com")
