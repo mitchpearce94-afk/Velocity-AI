@@ -18,6 +18,7 @@ Usage:
   python lead-research.py --trade plumbing --location brisbane --limit 10
   python lead-research.py --all
   python lead-research.py --enrich
+  python lead-research.py --enrich --batch 10 --missing-only
   python lead-research.py --summary
 
 Environment Variables (set in .env or export):
@@ -933,12 +934,37 @@ def run_search(trades: list[str], locations: list[str], limit: int = 20) -> list
     return all_new
 
 
-def run_enrichment(leads: list[dict]) -> list[dict]:
-    """Enrich and re-score all leads."""
-    log.info(f"Enriching {len(leads)} leads...")
-    for i, lead in enumerate(leads):
-        log.info(f"[{i+1}/{len(leads)}] {lead['business_name']}")
-        leads[i] = enrich_lead(lead)
+def run_enrichment(leads: list[dict], batch: int = 0, missing_only: bool = False) -> list[dict]:
+    """Enrich and re-score leads.
+
+    Args:
+        leads: Full list of leads (modified in place).
+        batch: If > 0, only process this many leads. Prioritises leads
+               missing email addresses, then leads missing websites.
+        missing_only: If True, only process leads that don't have an email yet.
+    """
+    # Build the processing queue
+    if missing_only:
+        indices = [i for i, l in enumerate(leads) if not l.get("email")]
+        log.info(f"Found {len(indices)} leads missing emails (out of {len(leads)} total)")
+    else:
+        # Prioritise: missing email first, then missing website, then the rest
+        no_email = [i for i, l in enumerate(leads) if not l.get("email")]
+        no_website = [i for i, l in enumerate(leads) if l.get("email") and not l.get("website")]
+        rest = [i for i, l in enumerate(leads) if l.get("email") and l.get("website")]
+        indices = no_email + no_website + rest
+        log.info(f"Enrichment queue: {len(no_email)} missing email, "
+                 f"{len(no_website)} missing website, {len(rest)} complete")
+
+    if batch > 0:
+        indices = indices[:batch]
+        log.info(f"Batch mode: processing {len(indices)} leads")
+
+    total = len(indices)
+    log.info(f"Enriching {total} leads...")
+    for count, idx in enumerate(indices, 1):
+        log.info(f"[{count}/{total}] {leads[idx]['business_name']}")
+        leads[idx] = enrich_lead(leads[idx])
     return leads
 
 
@@ -1043,6 +1069,7 @@ Examples:
   %(prog)s --all
   %(prog)s --all --limit 5
   %(prog)s --enrich
+  %(prog)s --enrich --batch 10 --missing-only
   %(prog)s --summary
         """,
     )
@@ -1066,7 +1093,17 @@ Examples:
     )
     parser.add_argument(
         "--enrich", action="store_true",
-        help="Re-enrich and re-score all existing leads",
+        help="Re-enrich and re-score existing leads",
+    )
+    parser.add_argument(
+        "--batch", type=int, default=0,
+        help="Limit enrichment to N leads (prioritises leads missing emails). "
+             "Use with --enrich. 0 = process all (default: 0)",
+    )
+    parser.add_argument(
+        "--missing-only", action="store_true",
+        help="Only enrich leads that don't have an email address yet. "
+             "Use with --enrich.",
     )
     parser.add_argument(
         "--summary", action="store_true",
@@ -1130,7 +1167,11 @@ def main():
         if not leads:
             log.warning("No leads to enrich. Run a search first.")
             return
-        leads = run_enrichment(leads)
+        leads = run_enrichment(
+            leads,
+            batch=args.batch,
+            missing_only=args.missing_only,
+        )
         save_leads(leads)
         print_full_summary(leads)
         return
