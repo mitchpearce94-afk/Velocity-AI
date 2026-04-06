@@ -65,6 +65,7 @@ LOG_DIR = SCRIPT_DIR / "webhook-logs"
 
 RETELL_API_KEY = os.environ.get("RETELL_API_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 CAL_API_KEY = os.environ.get("CAL_API_KEY", "")
 
@@ -306,7 +307,9 @@ def retell_webhook():
 
 @app.route("/webhook/stripe", methods=["POST"])
 def stripe_webhook():
-    """Handle Stripe payment webhooks."""
+    """Handle Stripe payment webhooks via StripeManager."""
+    from stripe_integration import StripeManager
+
     payload = request.get_data(as_text=True)
     sig_header = request.headers.get("Stripe-Signature", "")
 
@@ -318,42 +321,35 @@ def stripe_webhook():
 
     log_webhook("stripe", parsed)
 
-    event_type = parsed.get("type", "")
-    data = parsed.get("data", {}).get("object", {})
+    sm = StripeManager()
 
-    log.info(f"Stripe webhook: event={event_type}")
+    # Verify webhook signature and parse event
+    try:
+        event = sm.verify_webhook(payload, sig_header)
+    except Exception as e:
+        log.error(f"Webhook verification failed: {e}")
+        return jsonify({"error": "webhook verification failed"}), 400
 
-    if event_type == "checkout.session.completed":
-        customer_email = data.get("customer_details", {}).get("email", "")
-        customer_name = data.get("customer_details", {}).get("name", "")
-        amount = data.get("amount_total", 0) / 100
-        log.info(f"Payment received: {customer_name} ({customer_email}) — ${amount:.2f}")
+    log.info(f"Stripe webhook: event={event.type}")
 
-        # TODO: Trigger onboarding email sequence
-        # This will integrate with send-email.py onboarding templates
-        if not DRY_RUN:
-            log.info(f"Would trigger onboarding sequence for {customer_email}")
+    # Process the event through the integration module
+    result = sm.handle_webhook_event(event)
 
-        return jsonify({
-            "status": "processed",
-            "action": "onboarding_triggered",
-            "customer": customer_email,
-            "amount": amount,
-        }), 200
+    # Trigger onboarding email sequence on checkout completion
+    if result.get("action") == "onboarding_triggered" and not DRY_RUN:
+        customer_email = result.get("customer_email", "")
+        customer_name = result.get("customer_name", "")
+        tier = result.get("tier", "")
+        if customer_email:
+            log.info(f"Triggering onboarding sequence for {customer_email} ({tier})")
+            # TODO: Wire up to send-email.py onboarding templates
 
-    elif event_type == "invoice.paid":
-        customer_email = data.get("customer_email", "")
-        amount = data.get("amount_paid", 0) / 100
-        log.info(f"Invoice paid: {customer_email} — ${amount:.2f}")
-        return jsonify({"status": "logged"}), 200
+    # Alert on payment failures
+    if result.get("action") == "payment_failed":
+        log.warning(f"PAYMENT FAILED: {result.get('customer_email', 'unknown')} — ${result.get('amount', 0):.2f}")
+        # TODO: Send payment failure notification email
 
-    elif event_type == "customer.subscription.deleted":
-        customer_email = data.get("customer_email", data.get("metadata", {}).get("email", ""))
-        log.info(f"Subscription cancelled: {customer_email}")
-        # TODO: Flag churn, trigger win-back sequence
-        return jsonify({"status": "logged", "action": "churn_flagged"}), 200
-
-    return jsonify({"status": "ignored", "event": event_type}), 200
+    return jsonify(result), 200
 
 
 # ---------------------------------------------------------------------------
