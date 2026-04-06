@@ -258,7 +258,7 @@ def initiate_call(lead: dict, dry_run: bool = False) -> Optional[str]:
         "to_number": phone,
         "retell_llm_dynamic_variables": retell_dynamic_variables,
         "metadata": {
-            "lead_id": lead["id"],
+            "lead_id": lead.get("id", f"lead_{hash(lead.get('business_name', '')) % 0xFFFFFFFF:08x}"),
             "attempt_number": lead.get("call_attempts", 0) + 1,
             "pipeline_run": now_aest().isoformat(),
         },
