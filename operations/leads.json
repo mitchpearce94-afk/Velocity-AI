@@ -20,7 +20,10 @@
     "email_sequence_started": false,
     "email_sequence_step": 0,
     "email_sequence_last_sent": null,
-    "lead_score": 22
+    "lead_score": 49,
+    "website_quality": "outdated",
+    "has_online_booking": false,
+    "has_chatbot": false
   },
   {
     "id": "lead_002",
@@ -43,7 +46,10 @@
     "email_sequence_started": false,
     "email_sequence_step": 0,
     "email_sequence_last_sent": null,
-    "lead_score": 25
+    "lead_score": 52,
+    "website_quality": "outdated",
+    "has_online_booking": false,
+    "has_chatbot": false
   },
   {
     "id": "lead_003",
@@ -241,7 +247,7 @@
   },
   {
     "id": "lead_31069494",
-    "contact_name": null,
+    "contact_name": "of Turbo",
     "business_name": "Turbo Plumbing Solutions",
     "trade_type": "Plumbing",
     "phone": "+61731305976",
@@ -260,10 +266,12 @@
     "email_sequence_started": false,
     "google_rating": 4.7,
     "google_review_count": 392,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_bbaf04fb",
@@ -286,10 +294,12 @@
     "email_sequence_started": false,
     "google_rating": 4.7,
     "google_review_count": 315,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_677f7af2",
@@ -349,7 +359,7 @@
   },
   {
     "id": "lead_e82709cc",
-    "contact_name": null,
+    "contact_name": "insurance claims",
     "business_name": "Gold Coast Plumbing Experts",
     "trade_type": "Plumbing",
     "phone": "1300600632",
@@ -368,14 +378,16 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 1397,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_5b291459",
-    "contact_name": null,
+    "contact_name": "Julie",
     "business_name": "The Plumbing Doctor",
     "trade_type": "Plumbing",
     "phone": "+61755306333",
@@ -394,14 +406,16 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 969,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_ed66b19b",
-    "contact_name": null,
+    "contact_name": "and Managing",
     "business_name": "DCM Plumbing & Drainage Pty Ltd",
     "trade_type": "Plumbing",
     "phone": "+61755765305",
@@ -420,10 +434,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 1641,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 48,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_4989a6aa",
@@ -474,10 +490,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 4733,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_c47bad3f",
@@ -509,7 +527,7 @@
   },
   {
     "id": "lead_292cebac",
-    "contact_name": null,
+    "contact_name": "on the",
     "business_name": "Capital Plumbing",
     "trade_type": "Plumbing",
     "phone": "+61755284449",
@@ -528,10 +546,12 @@
     "email_sequence_started": false,
     "google_rating": 4.7,
     "google_review_count": 729,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_aa691cd4",
@@ -554,10 +574,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 118,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_e71a7d65",
@@ -580,10 +602,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 169,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_fc27ce23",
@@ -606,14 +630,16 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 201,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_38ff080f",
-    "contact_name": null,
+    "contact_name": "first to",
     "business_name": "Sunshine Coast Plumbing and Hot Water",
     "trade_type": "Plumbing",
     "phone": "1300723587",
@@ -632,10 +658,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 449,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_39c5a2f4",
@@ -658,10 +686,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 269,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_e1f854bf",
@@ -684,10 +714,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 149,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_2658a51b",
@@ -710,10 +742,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 163,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 48,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_a634dfbe",
@@ -736,10 +770,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 205,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 48,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_e04f2035",
@@ -762,10 +798,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 198,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_3ef91196",
@@ -788,10 +826,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 163,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_23dc0ff4",
@@ -814,10 +854,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 370,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_066abcfb",
@@ -840,10 +882,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 228,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_82cb6dff",
@@ -866,10 +910,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 60,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 63,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_a08d7dfa",
@@ -892,10 +938,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 85,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 43,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_8298c1d9",
@@ -918,10 +966,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 74,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 63,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_4bad7f0f",
@@ -944,10 +994,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 266,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_af0454b1",
@@ -998,10 +1050,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 450,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_8461af06",
@@ -1024,10 +1078,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 345,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_c8c7a23b",
@@ -1050,14 +1106,16 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 68,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_89c68603",
-    "contact_name": null,
+    "contact_name": "David Gilmour",
     "business_name": "DLG Electrical",
     "trade_type": "Electrical",
     "phone": "+61433145479",
@@ -1076,10 +1134,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 192,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_6e185a19",
@@ -1102,10 +1162,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 360,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_6b1448af",
@@ -1128,14 +1190,16 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 125,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_943de5e4",
-    "contact_name": null,
+    "contact_name": "needing electrical",
     "business_name": "\ud835\uddda\ud835\uddfc\ud835\uddf9\ud835\uddf1 \ud835\uddd6\ud835\uddfc\ud835\uddee\ud835\ude00\ud835\ude01 \ud835\uddd8\ud835\uddf9\ud835\uddf2\ud835\uddf0\ud835\ude01\ud835\uddff\ud835\uddf6\ud835\uddf0\ud835\uddf6\ud835\uddee\ud835\uddfb \ud835\udde6\ud835\uddf2\ud835\uddff\ud835\ude03\ud835\uddf6\ud835\uddf0\ud835\uddf2\ud835\ude00",
     "trade_type": "Electrical",
     "phone": "+61756199539",
@@ -1154,10 +1218,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 52,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_61dff1f9",
@@ -1180,10 +1246,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 204,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 48,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_f9b5281e",
@@ -1206,14 +1274,16 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 57,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 73,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_d00ca1b0",
-    "contact_name": null,
+    "contact_name": "of Gold",
     "business_name": "Watmar Electrical Contractors",
     "trade_type": "Electrical",
     "phone": "+61756659820",
@@ -1232,14 +1302,16 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 109,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_7886c111",
-    "contact_name": null,
+    "contact_name": "EJ Barnes",
     "business_name": "EJ Electrical",
     "trade_type": "Electrical",
     "phone": "+61756465541",
@@ -1258,10 +1330,12 @@
     "email_sequence_started": false,
     "google_rating": 4.7,
     "google_review_count": 383,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_f16949e0",
@@ -1284,10 +1358,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 258,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_e73eda6e",
@@ -1310,14 +1386,16 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 72,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_321d5502",
-    "contact_name": null,
+    "contact_name": "tackling",
     "business_name": "Emos Electrical",
     "trade_type": "Electrical",
     "phone": "+61424473630",
@@ -1336,10 +1414,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 259,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_cd5f6be2",
@@ -1362,10 +1442,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 67,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 43,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_38aab3db",
@@ -1388,10 +1470,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 1335,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 38,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_6df06a57",
@@ -1414,10 +1498,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 211,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_da1d1518",
@@ -1440,14 +1526,16 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 159,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 48,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_3c0a4653",
-    "contact_name": null,
+    "contact_name": "needing switchboard",
     "business_name": "Trusted Electrical",
     "trade_type": "Electrical",
     "phone": "+61404002578",
@@ -1466,10 +1554,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 99,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_2d5bad0b",
@@ -1570,10 +1660,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 69,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 73,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_6647da80",
@@ -1596,10 +1688,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 70,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 43,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_eae1a225",
@@ -1648,10 +1742,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 49,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 50
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_3da6116e",
@@ -1674,10 +1770,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 21,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 50
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_cce41fa7",
@@ -2064,10 +2162,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 206,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_50a4e125",
@@ -2127,7 +2227,7 @@
     "business_name": "Macdonald Air and Electrical",
     "trade_type": "Hvac",
     "phone": "+61732563205",
-    "email": null,
+    "email": "james@email.com",
     "location": "Brisbane, QLD",
     "employee_count": null,
     "lead_source": "Google Places",
@@ -2142,10 +2242,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 205,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_2e6f2469",
@@ -2220,10 +2322,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 31,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 50
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_f951b23e",
@@ -2361,7 +2465,7 @@
     "business_name": "Brisbane Landscaping co",
     "trade_type": "Landscaping",
     "phone": "+61421166669",
-    "email": null,
+    "email": "user@domain.com",
     "location": "Brisbane, QLD",
     "employee_count": null,
     "lead_source": "Google Places",
@@ -2376,10 +2480,12 @@
     "email_sequence_started": false,
     "google_rating": 4.6,
     "google_review_count": 18,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 45
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_92b123f2",
@@ -2402,10 +2508,12 @@
     "email_sequence_started": false,
     "google_rating": 4.3,
     "google_review_count": 113,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 57
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 65,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_f3b5127b",
@@ -2532,10 +2640,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 1,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 35
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_db78ade3",
@@ -2558,10 +2668,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 60,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 55
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 73,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_ad0bbb95",
@@ -2610,10 +2722,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 118,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_2522e9af",
@@ -2621,7 +2735,7 @@
     "business_name": "Brisbane Roofing - Brisbane Roof Repairers",
     "trade_type": "Roofing",
     "phone": "+61736081803",
-    "email": null,
+    "email": "leadgenandseo@gmail.com",
     "location": "Brisbane, QLD",
     "employee_count": null,
     "lead_source": "Google Places",
@@ -2636,10 +2750,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 9,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 45
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 53,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_e2d0c77f",
@@ -2695,7 +2811,7 @@
   },
   {
     "id": "lead_2b3cca7b",
-    "contact_name": null,
+    "contact_name": "who knows",
     "business_name": "ROCHELE Painting | Brisbane Painters",
     "trade_type": "Painting",
     "phone": "+61732628233",
@@ -2714,10 +2830,12 @@
     "email_sequence_started": false,
     "google_rating": 4.8,
     "google_review_count": 678,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": false,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 68,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_4c96dd60",
@@ -2740,10 +2858,12 @@
     "email_sequence_started": false,
     "google_rating": 5,
     "google_review_count": 119,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 60
+    "has_online_booking": true,
+    "has_chatbot": true,
+    "website_quality": "modern",
+    "lead_score": 48,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_3558aa6e",
@@ -2829,7 +2949,7 @@
     "business_name": "DC Decorators & Painters Brisbane",
     "trade_type": "Painting",
     "phone": "+61406634769",
-    "email": null,
+    "email": "user@domain.com",
     "location": "Brisbane, QLD",
     "employee_count": null,
     "lead_source": "Google Places",
@@ -2844,10 +2964,12 @@
     "email_sequence_started": false,
     "google_rating": 4.9,
     "google_review_count": 41,
-    "has_online_booking": null,
-    "has_chatbot": null,
-    "website_quality": null,
-    "lead_score": 50
+    "has_online_booking": false,
+    "has_chatbot": false,
+    "website_quality": "modern",
+    "lead_score": 58,
+    "email_sequence_step": 0,
+    "email_sequence_last_sent": null
   },
   {
     "id": "lead_7f228c21",
@@ -2940,7 +3062,10 @@
     "contact_name": "",
     "call_attempts": 0,
     "disposition": null,
-    "lead_score": 0
+    "lead_score": 55,
+    "website_quality": "none",
+    "has_online_booking": false,
+    "has_chatbot": false
   },
   {
     "business_name": "Think Cooling",
@@ -2955,7 +3080,10 @@
     "contact_name": "",
     "call_attempts": 0,
     "disposition": null,
-    "lead_score": 0
+    "lead_score": 55,
+    "website_quality": "none",
+    "has_online_booking": false,
+    "has_chatbot": false
   },
   {
     "business_name": "Hinterland Air Conditioning",
