@@ -47,6 +47,13 @@ except ImportError:
 # Configuration
 # ---------------------------------------------------------------------------
 
+# Pipeline execution mode — set to "LIVE" to make real calls, "DRY_RUN" to preview only.
+# Changed to LIVE on 2026-04-07 with Mitchell's explicit approval.
+PIPELINE_MODE = os.environ.get("VELOCITY_PIPELINE_MODE", "LIVE")
+
+# Default batch size — how many leads to process per run (highest lead_score first).
+DEFAULT_BATCH_SIZE = int(os.environ.get("VELOCITY_BATCH_SIZE", "15"))
+
 RETELL_API_KEY = os.environ.get("RETELL_API_KEY", "")
 RETELL_API_BASE = "https://api.retellai.com"
 RETELL_AGENT_IDS = os.environ.get("RETELL_AGENT_IDS", "").split(",") if os.environ.get("RETELL_AGENT_IDS") else []
@@ -688,9 +695,10 @@ def process_lead(lead: dict, dry_run: bool = False) -> str:
     return disposition
 
 
-def run_pipeline(dry_run: bool = False, follow_ups_only: bool = False) -> dict:
+def run_pipeline(dry_run: bool = False, follow_ups_only: bool = False, batch_size: int = 15) -> dict:
     """
     Run the full outbound pipeline.
+    Leads are sorted by lead_score (highest first) and capped at batch_size.
     Returns a summary of results.
     """
     log.info("=" * 60)
@@ -720,6 +728,14 @@ def run_pipeline(dry_run: bool = False, follow_ups_only: bool = False) -> dict:
         log.info("No leads ready to call right now")
         save_leads(leads)
         return {"status": "completed", "calls_made": 0}
+
+    # Sort by lead_score descending so highest-value leads are called first
+    to_call.sort(key=lambda l: l.get("lead_score", 0), reverse=True)
+
+    # Apply batch size limit (0 = unlimited)
+    if batch_size and batch_size > 0 and len(to_call) > batch_size:
+        log.info(f"Batch limit: processing top {batch_size} of {len(to_call)} callable leads (sorted by lead_score)")
+        to_call = to_call[:batch_size]
 
     # Process each lead
     results = {
@@ -811,7 +827,14 @@ def main():
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="Preview pipeline actions without making real calls or sending emails",
+        default=(PIPELINE_MODE.upper() == "DRY_RUN"),
+        help="Preview pipeline actions without making real calls or sending emails. "
+             f"(Current PIPELINE_MODE: {PIPELINE_MODE})",
+    )
+    parser.add_argument(
+        "--live",
+        action="store_true",
+        help="Force LIVE mode, overriding PIPELINE_MODE setting",
     )
     parser.add_argument(
         "--status",
@@ -827,6 +850,12 @@ def main():
         "--leads-file",
         type=str,
         help="Path to leads JSON file (default: leads.json in same directory)",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=DEFAULT_BATCH_SIZE,
+        help="Max number of leads to process per run (default: 15). Set to 0 for unlimited.",
     )
     parser.add_argument(
         "--agent-id",
@@ -848,7 +877,10 @@ def main():
         print_status()
         return
 
-    results = run_pipeline(dry_run=args.dry_run, follow_ups_only=args.follow_ups)
+    # --live flag overrides --dry-run and PIPELINE_MODE
+    dry_run = args.dry_run and not args.live
+
+    results = run_pipeline(dry_run=dry_run, follow_ups_only=args.follow_ups, batch_size=args.batch_size)
 
     if results.get("status") == "skipped":
         sys.exit(0)
