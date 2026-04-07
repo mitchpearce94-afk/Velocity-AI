@@ -3,6 +3,7 @@
   "outputDirectory": ".",
   "framework": null,
   "rewrites": [
+    { "source": "/brand/:path*", "destination": "/brand/:path*" },
     { "source": "/(.*)", "destination": "/website/index.html" }
   ],
   "headers": [
