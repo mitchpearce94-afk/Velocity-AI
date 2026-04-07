@@ -40,7 +40,7 @@ import argparse
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional
-from urllib.parse import quote_plus, urljoin
+from urllib.parse import quote_plus, urljoin, urlparse, urlunparse
 
 try:
     import requests
@@ -647,8 +647,21 @@ def enrich_lead(lead: dict) -> dict:
     return lead
 
 
+def clean_url(url: str) -> str:
+    """Strip UTM and tracking parameters from a URL to get a clean base URL."""
+    parsed = urlparse(url)
+    # Remove query string (UTM params, tracking, etc.)
+    clean = urlunparse((parsed.scheme, parsed.netloc, parsed.path, "", "", ""))
+    # Ensure trailing slash on root URLs
+    if not parsed.path or parsed.path == "/":
+        clean = clean.rstrip("/") + "/"
+    return clean
+
+
 def try_extract_email(base_url: str, html_text: str, soup: BeautifulSoup) -> Optional[str]:
     """Try to extract a business email from the website."""
+    # Clean URL to remove UTM/tracking params
+    base_url = clean_url(base_url)
     # Regex for email addresses
     email_pattern = r'[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}'
 
@@ -678,12 +691,34 @@ def try_extract_email(base_url: str, html_text: str, soup: BeautifulSoup) -> Opt
         if not any(ex in email for ex in exclude_patterns):
             found_emails.add(email)
 
-    # 3. Try contact page
+    # 3. Check JSON-LD structured data on homepage (many trades sites have this)
+    if not found_emails:
+        for script_tag in soup.select('script[type="application/ld+json"]'):
+            try:
+                ld_data = json.loads(script_tag.string or "{}")
+                # Handle both single objects and arrays
+                ld_items = ld_data if isinstance(ld_data, list) else [ld_data]
+                for item in ld_items:
+                    ld_email = item.get("email", "")
+                    if ld_email:
+                        ld_email = ld_email.replace("mailto:", "").lower().strip()
+                        if "@" in ld_email and not any(ex in ld_email for ex in exclude_patterns):
+                            found_emails.add(ld_email)
+            except (json.JSONDecodeError, AttributeError):
+                pass
+
+    # 4. Try contact/about pages (expanded path list for Aussie trade sites)
     if not found_emails:
         contact_urls = [
             urljoin(base_url, "/contact"),
             urljoin(base_url, "/contact-us"),
             urljoin(base_url, "/get-in-touch"),
+            urljoin(base_url, "/about"),
+            urljoin(base_url, "/about-us"),
+            urljoin(base_url, "/enquire"),
+            urljoin(base_url, "/enquiry"),
+            urljoin(base_url, "/get-a-quote"),
+            urljoin(base_url, "/footer"),
         ]
         for contact_url in contact_urls:
             resp = safe_get(contact_url, timeout=8)
@@ -713,6 +748,7 @@ def try_extract_email(base_url: str, html_text: str, soup: BeautifulSoup) -> Opt
 
 def try_extract_contact_name(base_url: str, home_soup: BeautifulSoup) -> Optional[str]:
     """Try to find the owner/contact name from the About page."""
+    base_url = clean_url(base_url)
     # Check home page first for common patterns
     for el in home_soup.select("h1, h2, h3, p, .about, .owner, .team-member"):
         text = el.get_text(strip=True)
